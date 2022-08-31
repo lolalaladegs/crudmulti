@@ -43,6 +43,22 @@ public class UserController {
         }
     }
 
+    @GetMapping(path = "/paged", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UserEntity>> getUsersbyPage(@RequestParam int page, @RequestParam int size){
+        try{
+            List<UserEntity> userList = userService.getUsersbyPage(page,size);
+            return ResponseEntity.status(HttpStatus.OK).body(userList);
+        }catch (CannotCreateTransactionException transactionException){
+            log.error(transactionException.getMessage(), transactionException);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.emptyList());
+        }catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Collections.emptyList());
+        }
+    }
+
     @GetMapping(path = "/id/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserEntity>> getUsersByIds(@RequestBody List<Integer> ids){
         try{

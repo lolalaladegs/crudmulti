@@ -8,6 +8,8 @@ public interface UserService {
 
     List<UserEntity> getAllUsers();
 
+    List<UserEntity> getUsersbyPage(int page, int size);
+
     List<UserEntity> getUsersByIds(List<Integer> ids);
 
     void addUser(List<UserEntity> users);
